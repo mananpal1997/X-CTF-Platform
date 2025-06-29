@@ -1,0 +1,17 @@
+.mypy_cache
+.env
+__pycache__/
+celerybeat-schedule.*
+db.sqlite3
+dump.rdb
+nginx.conf
+supervisord.conf
+supervisord.pid
+logs/
+staticfiles/
+uvicorn_config.py
+flower_env.sh
+local_settings.py
+.env.example
+.coverage
+gunicorn_config.py
