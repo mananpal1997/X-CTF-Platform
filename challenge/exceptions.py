@@ -1,0 +1,2 @@
+class SandboxCreateTimeoutException(Exception):
+    pass
