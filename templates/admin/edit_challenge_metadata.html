@@ -1,0 +1,15 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+<h3>Edit Metadata for {{ challenge.name }}</h3>
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="metadata">Metadata JSON</label>
+        <textarea class="form-control" id="metadata" name="metadata" rows="20" style="font-family: monospace;">{{ metadata_content }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save and Update</button>
+    <a href="{% url 'admin:challenge_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
+

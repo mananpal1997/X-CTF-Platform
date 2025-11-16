@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Scoreboard - X-CTF{% endblock %}
+
+{% block content %}
+<div class="main-wrapper">
+    <div class="container-fluid px-4 px-lg-5 py-8" style="max-width: 1280px; margin: 0 auto;">
+        <h1 class="text-3xl font-weight-bold text-slate-900 mb-6">Scoreboard</h1>
+
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr class="table-header">
+                                <th scope="col" style="width: 80px;">Rank</th>
+                                <th scope="col">Username</th>
+                                <th scope="col" style="width: 120px;" class="text-end">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for username, banned, score in scores %}
+                                {% if banned %}
+                                    <tr class="table-row-banned">
+                                        <td class="text-slate-400">{{ forloop.counter }}</td>
+                                        <td class="text-slate-400">
+                                            {{ username }}
+                                            <span class="badge badge-secondary ml-2">banned</span>
+                                        </td>
+                                        <td class="text-end text-slate-400">{{ score }}</td>
+                                    </tr>
+                                {% elif username == user.username %}
+                                    <tr class="table-row-current">
+                                        <td class="font-weight-bold text-emerald-600">{{ forloop.counter }}</td>
+                                        <td class="font-weight-bold text-emerald-600">{{ username }}</td>
+                                        <td class="text-end font-weight-bold text-emerald-600">{{ score }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td class="text-slate-600">{{ forloop.counter }}</td>
+                                        <td class="text-slate-900">{{ username }}</td>
+                                        <td class="text-end text-slate-900">{{ score }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                Back to Challenges
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/styles.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2 class="mb-4">{{ page_title }}</h2>
+    </div>
+    <div class='row'>
+        <div class='col-xs-12 col-md-8'>
+            <form method="POST" action="{% url form_action %}">
+                {% csrf_token %}
+                {% for field in form_fields %}
+                <div class="form-group">
+                    <label for="{{ field.name }}">{{ field.label }}</label>
+                    <input type="{{ field.type }}" 
+                           class="form-control" 
+                           id="{{ field.name }}" 
+                           name="{{ field.name }}" 
+                           {% if field.size %}size="{{ field.size }}"{% endif %}
+                           {% if field.required %}required{% endif %}
+                           {% if field.minlength %}minlength="{{ field.minlength }}"{% endif %}
+                           {% if field.maxlength %}maxlength="{{ field.maxlength }}"{% endif %}
+                           {% if field.value %}value="{{ field.value }}"{% endif %}
+                           {% if field.autofocus %}autofocus{% endif %}>
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">{{ submit_text }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+    <a href="{% url 'home' %}">
+        <button class="btn btn-default"> Back to Home </button>
+    </a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
+

@@ -1,0 +1,67 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+<h3>Sandboxes</h3>
+
+<div class="mb-3">
+    <form method="GET" class="form-inline">
+        <input type="text" name="search" class="form-control mr-2" placeholder="Search sandboxes..." value="{{ search }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+        {% if search %}
+        <a href="{% url 'admin:sandbox_list' %}" class="btn btn-secondary ml-2">Clear</a>
+        {% endif %}
+    </form>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Challenge</th>
+            <th>User</th>
+            <th>Container ID</th>
+            <th>Container Port</th>
+            <th>Active</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sandbox in sandboxes %}
+        <tr>
+            <td>{{ sandbox.id }}</td>
+            <td>{{ sandbox.challenge.name }}</td>
+            <td>{{ sandbox.user.username|default:"N/A" }}</td>
+            <td>{{ sandbox.container_id|truncatechars:12 }}</td>
+            <td>{{ sandbox.container_port }}</td>
+            <td>
+                {% if sandbox.active %}
+                <span class="badge badge-success">Active</span>
+                {% else %}
+                <span class="badge badge-secondary">Inactive</span>
+                {% endif %}
+            </td>
+            <td>{{ sandbox.created_at|date:"Y-m-d H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">No sandboxes found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if sandboxes.has_other_pages %}
+<nav>
+    <ul class="pagination">
+        {% if sandboxes.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ sandboxes.previous_page_number }}{% if search %}&search={{ search }}{% endif %}">Previous</a></li>
+        {% endif %}
+        <li class="page-item active"><span class="page-link">Page {{ sandboxes.number }} of {{ sandboxes.paginator.num_pages }}</span></li>
+        {% if sandboxes.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ sandboxes.next_page_number }}{% if search %}&search={{ search }}{% endif %}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="main-wrapper">
+        <div class="container-fluid px-4 px-lg-5 py-8" style="max-width: 1280px; margin: 0 auto;">
+            {% if user and user.is_authenticated %}
+                {% load static %}
+                {% load challenge_filters %}
+                <br>
+                <div class="mb-8">
+                    <div class="d-flex justify-content-end">
+                        <div class="score-display">
+                            <span class="text-slate-600 mr-2">Total Score:</span>
+                            <span class="text-slate-900 font-weight-bold" style="font-size: 1.25rem;">{{ score }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card info-card mb-8">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0 d-flex align-items-center" style="gap: 0.5rem;">
+                            <img src="/static/icons/info.svg" alt="Info" style="width: 20px; height: 20px;">
+                            <span>Notes</span>
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-card-items">
+                            <div class="info-card-item">
+                                <div class="info-dot"></div>
+                                <p class="mb-0">All challenge servers restart every two hours.</p>
+                            </div>
+                            <div class="info-card-item">
+                                <div class="info-dot"></div>
+                                <p class="mb-0">You cannot access a challenge if you have already solved it.</p>
+                            </div>
+                            <div class="info-card-item">
+                                <div class="info-dot"></div>
+                                <p class="mb-0">The flags are case-sensitive. If you find a flag like FLAG{...}, you only need to submit the text inside the curly braces.</p>
+                            </div>
+                            <div class="info-card-item">
+                                <div class="info-dot"></div>
+                                <p class="mb-0">If you try to send too many requests, you will get rate-limited, and might even get banned.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">Challenges</h2>
+                </div>
+
+                {% for category, challenges in challenges_by_category.items %}
+                <div class="mb-6">
+                    <div class="d-flex align-items-center" style="gap: 0.5rem; margin-bottom: 1.5rem;">
+                        <span class="badge category-badge">{{ category }}</span>
+                    </div>
+
+                    <div class="challenge-grid">
+                        {% for challenge in challenges|sort_challenges %}
+                        {% with challenge_id=challenge.id %}
+                        {% with has_successful_submission=correct_submissions|get_item:challenge_id %}
+                        {% with sandbox_info=active_sandboxes|get_item:challenge_id %}
+                        <div>
+                            <div class="card challenge-card h-100 d-flex flex-column">
+                                <div class="card-header {% if has_successful_submission %}challenge-card-header-solved{% else %}challenge-card-header-unsolved{% endif %}" style="flex-shrink: 0;">
+                                    <div class="challenge-card-header-content">
+                                        <div class="d-flex justify-content-between align-items-start" style="min-height: 1.625rem;">
+                                            <h5 class="card-title mb-0 text-white" style="flex: 1;">{{ challenge.name }}</h5>
+                                            {% if sandbox_info and sandbox_info.has_sandbox %}
+                                            <span class="badge badge-info" style="background-color: #17a2b8; font-size: 0.75rem; padding: 0.25rem 0.5rem; flex-shrink: 0; margin-left: 0.5rem;">
+                                                Active
+                                            </span>
+                                            {% else %}
+                                            <span style="width: 60px; flex-shrink: 0;"></span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="challenge-card-stats">
+                                            <div class="challenge-card-stat-item">
+                                                <img src="/static/icons/flag.svg" alt="Flag" style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
+                                                <span class="text-white">Points: {{ challenge.points }}</span>
+                                            </div>
+                                            <div class="challenge-card-stat-item">
+                                                <img src="/static/icons/users.svg" alt="Users" style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
+                                                <span class="text-white">Solves: {{ challenge_solves|get_item:challenge.name }}</span>
+                                            </div>
+                                        </div>
+                                        <div style="min-height: 2.125rem;">
+                                            {% if sandbox_info and sandbox_info.has_sandbox %}
+                                            <div class="mt-2 d-flex align-items-center" style="padding-top: 0.5rem; border-top: 1px solid rgba(255, 255, 255, 0.2); gap: 0.5rem; min-height: 2.125rem;">
+                                                <img src="/static/icons/sandbox.svg" alt="Sandbox" style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
+                                                <small class="text-white" style="opacity: 0.9;">
+                                                    Sandbox active on port {{ sandbox_info.port }}
+                                                </small>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column" style="flex-grow: 1;">
+                                    <div class="challenge-card-buttons" style="margin-top: auto;">
+                                        {% if has_successful_submission %}
+                                        <button class="btn btn-start w-100" style="height: 2.25rem;" disabled>
+                                            Solved
+                                        </button>
+                                        {% else %}
+                                        <form action="{% url 'start_challenge' challenge.id %}" method="POST" target="_blank" style="flex: 1;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-start w-100" style="height: 2.25rem;">
+                                                Start
+                                            </button>
+                                        </form>
+                                        <button class="btn btn-outline-secondary" style="flex: 1; height: 2.25rem;" data-toggle="modal" data-target="#challengeModal{{ challenge.id }}">
+                                            Submit Flag
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="challengeModal{{ challenge.id }}" tabindex="-1" role="dialog" aria-labelledby="challengeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header {% if has_successful_submission %}modal-header-solved{% else %}modal-header-unsolved{% endif %}">
+                                            <h5 class="modal-title text-white" id="challengeModalLabel">
+                                                {{ challenge.name }}
+                                            </h5>
+                                            <button type="button" class="btn-close-custom" data-dismiss="modal" aria-label="Close">
+                                                <img src="/static/icons/x.svg" alt="Close" style="width: 20px; height: 20px; filter: brightness(0) invert(1);">
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-3" style="font-size: 0.875rem;">
+                                                <div class="text-center flex-grow-1">
+                                                    <span class="text-muted">Points:</span>
+                                                    <span class="badge badge-secondary ml-1">{{ challenge.points }}</span>
+                                                </div>
+                                                <div class="text-center flex-grow-1 border-left border-right px-2">
+                                                    <span class="text-muted">Solves:</span>
+                                                    <span class="ml-1">{{ challenge_solves|get_item:challenge.name }}</span>
+                                                </div>
+                                                <div class="text-center flex-grow-1">
+                                                    <span class="text-muted">Category:</span>
+                                                    <span class="badge badge-secondary ml-1" style="font-size: 0.75rem;">{{ category }}</span>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label for="flag{{ challenge.id }}" class="form-label mb-2 font-weight-semibold">Submit Flag</label>
+                                                <form action="{% url 'submit_flag' challenge.id %}" method="POST" id="flagForm{{ challenge.id }}">
+                                                    {% csrf_token %}
+                                                    <div class="mb-2">
+                                                        <input type="text" class="form-control" id="flag{{ challenge.id }}" name="flag" 
+                                                               required autocomplete="off" placeholder="Enter flag">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-warning w-100">
+                                                        Submit Flag
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endwith %}
+                        {% endwith %}
+                        {% endwith %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var alerts = document.querySelectorAll('.alert.alert-dismissible.flash-message');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    $(alert).alert('close');
+                }, 8000);
+            });
+        });
+
+        {% if user and user.is_authenticated %}
+        function connect() {
+            var source = new EventSource("{% url 'notifications:stream' user.id %}");
+            source.addEventListener('notification', function(event) {
+                var data = JSON.parse(event.data);
+                var message = data.message;
+                var f_messages = document.getElementById("flashed-messages");
+                if (!f_messages) {
+                    f_messages = document.createElement('div');
+                    f_messages.id = 'flashed-messages';
+                    f_messages.className = 'flash-messages-container';
+                    document.body.prepend(f_messages);
+                }
+                var alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-success alert-dismissible fade show flash-message';
+                alertDiv.setAttribute('role', 'alert');
+                alertDiv.innerHTML = '<strong>New notification:</strong> ' + message + 
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span></button>';
+                f_messages.appendChild(alertDiv);
+                setTimeout(function() {
+                    $(alertDiv).alert('close');
+                }, 5000);
+            }, false);
+            source.addEventListener('error', function(event) {
+                console.log("Failed to connect to event stream.");
+            }, false);
+            source.onerror = function(event) {
+                console.error("Error receiving events:", event);
+                source.close();
+                setTimeout(connect, 5000);
+            };
+        }
+        connect();
+        {% endif %}
+    </script>
+{% endblock %}

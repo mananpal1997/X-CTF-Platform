@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notifications - X-CTF{% endblock %}
+
+{% block content %}
+<div class="main-wrapper">
+    <div class="container-fluid px-4 px-lg-5 py-8" style="max-width: 1280px; margin: 0 auto;">
+        <h1 class="text-3xl font-weight-bold text-slate-900 mb-6">Notifications</h1>
+
+        {% if notifications %}
+            <div class="notifications-list">
+                {% for notification in notifications %}
+                <div class="card notification-card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <p class="mb-1 notification-message">{{ notification.message|safe }}</p>
+                                <small class="text-slate-600">{{ notification.created_at|date:"Y-m-d H:i:s" }}</small>
+                            </div>
+                            <!-- {% if not notification.is_read %}
+                            <span class="badge badge-primary notification-badge">New</span>
+                            {% endif %} -->
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <p class="text-slate-600 mb-0">No notifications yet.</p>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                Back to Challenges
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

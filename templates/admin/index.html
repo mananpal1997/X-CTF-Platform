@@ -1,0 +1,64 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+<h3>Admin Panel</h3>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Users</h5>
+                <p class="card-text">Manage users, ban/unban, verify emails</p>
+                <a href="{% url 'admin:user_list' %}" class="btn btn-primary">Manage Users</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Challenges</h5>
+                <p class="card-text">Manage challenges and edit metadata</p>
+                <a href="{% url 'admin:challenge_list' %}" class="btn btn-primary">Manage Challenges</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Sandboxes</h5>
+                <p class="card-text">View and manage active sandboxes</p>
+                <a href="{% url 'admin:sandbox_list' %}" class="btn btn-primary">Manage Sandboxes</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Submissions</h5>
+                <p class="card-text">View all flag submissions</p>
+                <a href="{% url 'admin:submission_list' %}" class="btn btn-primary">View Submissions</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Docker Containers</h5>
+                <p class="card-text">Manage Docker containers</p>
+                <a href="{% url 'admin:docker_containers' %}" class="btn btn-primary">Manage Containers</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Notifications</h5>
+                <p class="card-text">Send notifications to users</p>
+                <a href="{% url 'admin:send_notifications' %}" class="btn btn-primary">Send Notifications</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

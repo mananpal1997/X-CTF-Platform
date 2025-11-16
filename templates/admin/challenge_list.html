@@ -1,0 +1,79 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+<h3>Challenges</h3>
+
+<div class="mb-3">
+    <form method="GET" class="form-inline">
+        <input type="text" name="search" class="form-control mr-2" placeholder="Search challenges..." value="{{ search }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+        {% if search %}
+        <a href="{% url 'admin:challenge_list' %}" class="btn btn-secondary ml-2">Clear</a>
+        {% endif %}
+    </form>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Points</th>
+            <th>Active</th>
+            <th>Static</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for challenge in challenges %}
+        <tr>
+            <td>{{ challenge.id }}</td>
+            <td>{{ challenge.name }}</td>
+            <td>{{ challenge.category }}</td>
+            <td>{{ challenge.points }}</td>
+            <td>
+                {% if challenge.active %}
+                <span class="badge badge-success">Active</span>
+                {% else %}
+                <span class="badge badge-secondary">Inactive</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if challenge.static %}
+                <span class="badge badge-info">Static</span>
+                {% else %}
+                <span class="badge badge-secondary">Dynamic</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if challenge.metadata_filepath %}
+                <a href="{% url 'admin:challenge_edit_metadata' challenge.id %}" class="btn btn-sm btn-primary">Edit Metadata</a>
+                {% else %}
+                <span class="text-muted">No metadata</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">No challenges found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if challenges.has_other_pages %}
+<nav>
+    <ul class="pagination">
+        {% if challenges.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ challenges.previous_page_number }}{% if search %}&search={{ search }}{% endif %}">Previous</a></li>
+        {% endif %}
+        <li class="page-item active"><span class="page-link">Page {{ challenges.number }} of {{ challenges.paginator.num_pages }}</span></li>
+        {% if challenges.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ challenges.next_page_number }}{% if search %}&search={{ search }}{% endif %}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
+

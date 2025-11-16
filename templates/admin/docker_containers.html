@@ -1,0 +1,39 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+<h3>Manage Docker Containers</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Container Name</th>
+            <th>Container ID</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for container in containers %}
+        <tr>
+            <td>{{ container.name }}</td>
+            <td>{{ container.id|truncatechars:12 }}</td>
+            <td>{{ container.status }}</td>
+            <td>
+                <form style="display: inline; margin-right: 5px;" action="{% url 'admin:docker_stop_container' container.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning btn-sm">Stop</button>
+                </form>
+                <form style="display: inline;" action="{% url 'admin:docker_remove_container' container.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No containers found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
