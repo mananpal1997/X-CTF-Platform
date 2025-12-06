@@ -1,0 +1,565 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(to bottom right, #f8fafc 0%, #f1f5f9 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #1e293b;
+}
+
+.main-wrapper {
+    flex: 1;
+}
+
+.text-3xl {
+    font-size: 1.875rem;
+}
+
+.text-slate-600 {
+    color: #475569;
+}
+
+.text-slate-900 {
+    color: #1e293b;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+    margin-bottom: 2rem;
+}
+
+.score-display {
+    padding: 0.75rem 1.5rem;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar */
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b !important;
+}
+
+.nav-link {
+    color: #475569 !important;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #1e293b !important;
+}
+
+.nav-link.active {
+    color: #2563eb !important;
+}
+
+/* Cards */
+.card {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: #cbd5e1;
+}
+
+.challenge-card {
+    overflow: hidden;
+}
+
+.challenge-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: #cbd5e1;
+}
+
+.card-header {
+    border-bottom: 0;
+    border-radius: 0.5rem 0.5rem 0 0 !important;
+    padding: 1rem;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+/* Info card */
+.info-card {
+    background-color: rgba(239, 246, 255, 0.5);
+    border: 1px solid #bfdbfe;
+    border-radius: 0.5rem;
+}
+
+.info-card .card-header {
+    background-color: transparent;
+    border-bottom: 0;
+    padding: 1.5rem;
+}
+
+.info-card .card-title {
+    color: #1e3a8a;
+    font-weight: 600;
+}
+
+.info-card .card-title img {
+    color: #1e3a8a;
+    fill: #1e3a8a;
+}
+
+.info-card .card-body {
+    padding: 1.5rem;
+    padding-top: 0;
+}
+
+.info-card .card-body p {
+    color: #1e40af;
+}
+
+.info-card-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-card-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.info-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #3b82f6;
+    display: inline-block;
+    margin-top: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* Category badge */
+.category-badge {
+    background-color: #e9d5ff !important;
+    color: #6b21a8 !important;
+    border: 1px solid #d8b4fe;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.category-inline-badge {
+    font-size: 0.75rem;
+}
+
+/* Challenge cards */
+.challenge-card-header-solved {
+    background-color: #10b981 !important;
+}
+
+.challenge-card-header-unsolved {
+    background-color: #1e293b !important;
+}
+
+.challenge-card .card-header {
+    color: white;
+    padding: 1.5rem;
+}
+
+.challenge-card .card-header .card-title {
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.trophy-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.challenge-card .card-body {
+    padding: 1rem;
+}
+
+/* Challenge card header spacing */
+.challenge-card-header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+
+.challenge-card-stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.875rem;
+}
+
+.challenge-card-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.challenge-card-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Challenge grid spacing */
+.challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+    .challenge-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .challenge-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Buttons */
+.btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-start {
+    background-color: #059669;
+    border-color: #059669;
+    color: white;
+    font-weight: 500;
+}
+
+.btn-start:hover:not(:disabled) {
+    background-color: #047857;
+    border-color: #047857;
+    color: white;
+}
+
+.btn-start:disabled {
+    background-color: #6b7280;
+    border-color: #6b7280;
+    color: white;
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+.btn-success {
+    background-color: #059669;
+    border-color: #059669;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #047857;
+    border-color: #047857;
+    color: white;
+}
+
+.btn-warning {
+    background-color: #f59e0b;
+    border-color: #f59e0b;
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #d97706;
+    border-color: #d97706;
+    color: white;
+}
+
+.btn-outline-primary {
+    color: #2563eb;
+    border-color: #2563eb;
+}
+
+.btn-outline-primary:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: white;
+}
+
+.btn-outline-secondary {
+    color: #64748b;
+    border-color: #e2e8f0;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #64748b;
+    border-color: #64748b;
+    color: white;
+}
+
+/* Badges */
+.badge {
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+}
+
+.badge.bg-secondary {
+    background-color: #e2e8f0 !important;
+    color: #475569 !important;
+}
+
+/* Modals */
+.modal-content {
+    border-radius: 0.5rem;
+    border: 0;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+.modal-header {
+    border-bottom: 0;
+    padding: 1rem;
+    border-radius: 0;
+}
+
+.modal-header.modal-header-solved {
+    background-color: #10b981 !important;
+}
+
+.modal-header.modal-header-unsolved {
+    background-color: #1e293b !important;
+}
+
+.modal-header .modal-title {
+    color: white;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.btn-close-custom {
+    background: transparent;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.btn-close-custom:hover {
+    opacity: 1;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-body hr {
+    opacity: 0.1;
+}
+
+.solved-alert {
+    background-color: #fef3c7;
+    border: 1px solid #fcd34d;
+    border-radius: 0.5rem;
+    color: #92400e;
+}
+
+/* Forms */
+.form-control {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+}
+
+.form-control:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.1);
+}
+
+.form-control:disabled {
+    background-color: #f1f5f9;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.form-label {
+    color: #475569;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+/* Alerts */
+/* Flash Messages Container - Fixed Position */
+.flash-messages-container {
+    position: fixed;
+    top: 56px; /* Below navbar (adjust based on navbar height) */
+    right: 1rem;
+    z-index: 1050;
+    max-width: 400px;
+    width: calc(100% - 2rem);
+    pointer-events: none;
+}
+
+.flash-messages-container .alert {
+    pointer-events: auto;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.alert {
+    border-radius: 0.375rem;
+    border: 0;
+    position: relative;
+}
+
+.alert .btn-close {
+    opacity: 1;
+    filter: brightness(0) saturate(100%) invert(1);
+    padding: 0.5rem;
+}
+
+.alert .btn-close:hover {
+    opacity: 0.75;
+}
+
+.flash-message {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive adjustments for flash messages */
+@media (max-width: 576px) {
+    .flash-messages-container {
+        right: 0.5rem;
+        left: 0.5rem;
+        width: calc(100% - 1rem);
+        max-width: none;
+    }
+}
+
+/* Footer */
+.footer {
+    background-color: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    padding: 1.5rem 0;
+    margin-top: auto;
+}
+
+/* Notifications */
+.notification-card {
+    transition: all 0.2s ease;
+}
+
+.notification-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.notification-message {
+    color: #1e293b;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.notification-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Scoreboard */
+.table-header {
+    background-color: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.table-header th {
+    color: #475569;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1rem;
+    border-bottom: none;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.table-row-current {
+    background-color: #ecfdf5;
+    border-left: 3px solid #10b981;
+}
+
+.table-row-banned {
+    background-color: #f8fafc;
+    opacity: 0.6;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+.table-hover tbody tr.table-row-current:hover {
+    background-color: #d1fae5;
+}
+
+.table-hover tbody tr.table-row-banned:hover {
+    background-color: #f8fafc;
+    opacity: 0.7;
+}
