@@ -1,0 +1,13 @@
+# Apache configuration for the PHP challenge
+# This file can be used to configure Apache behavior
+
+# Enable rewrite engine if needed
+# RewriteEngine On
+
+# Default file
+DirectoryIndex index.php index.html
+
+# Security headers (optional)
+# Header set X-Content-Type-Options "nosniff"
+# Header set X-Frame-Options "DENY"
+

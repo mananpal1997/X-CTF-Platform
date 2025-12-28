@@ -145,6 +145,8 @@ supervisorctl -c supervisord.conf status
 - Each challenge must expose its main server at **port 8000** in the container
 - Challenges can access their port mappings via `/data/.xctf_port_mappings.json` in the container
 
+#### Refer to [this sample challenge](samples/php-sample/README.md) for more details.
+
 ## Admin Panel
 
 Access the admin panel at `/admin` (requires admin account).
@@ -187,9 +189,11 @@ The platform runs the following services:
 - **celery-worker-***: Celery worker processes (4 workers by default)
 - **flower**: Celery monitoring dashboard
 
-### TODO
+### NOTE
 
-- [ ] Explore SNAT for sandbox restrictions
+- Currently, nftables entries are used to restrict who can access what ports. This helps blocking a user from interferring with other user's sandbox containers. But it has a subtle flaw -- 2 or more users can have same IPs if they are behind a VPN or under same NAT.
+- Only one IP per user is valid at a time. If a user logs in from a new IP, any active sandbox ports access is transferred from old IP to thio new IP, and previous session(s) of user is invalidated.
+- [ ] Explore alternatives for port access restriction with minimal user and challenge maker effort.
 
 ### Post-Deployment Checklist
 

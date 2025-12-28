@@ -1,0 +1,10 @@
+{
+  "NAME": "PHP Sample Challenge",
+  "CATEGORY": "Web",
+  "POINTS": 100,
+  "FLAG": "FLAG{sample_php_challenge_flag}",
+  "STATIC": false,
+  "ACTIVE": true,
+  "TCP_PORTS": [8000]
+}
+

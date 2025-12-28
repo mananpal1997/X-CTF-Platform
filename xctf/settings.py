@@ -78,6 +78,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "xctf.context_processors.github_repo",
             ],
         },
     },
@@ -311,6 +312,8 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "UTC"
 
 CHALLENGES_DIRECTORY = os.getenv("CHALLENGES_DIRECTORY", "challenges")
+
+GITHUB_REPO = os.getenv("GITHUB_REPO", "mananpal1997/X-CTF-Platform")
 
 LOGGING = {
     "version": 1,
