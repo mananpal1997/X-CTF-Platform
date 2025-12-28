@@ -35,8 +35,10 @@ def get_client_ip(request: HttpRequest) -> str:
 
 
 def _generate_sandbox_url(sandbox: Sandbox) -> str:
-    server_name = getattr(settings, "SERVER_NAME", "localhost:8080")
-    server_url = re.sub(r":\d+$", f":{sandbox.container_port}", server_name)
+    if ":" not in settings.SERVER_NAME:
+        server_url = f"{settings.SERVER_NAME}:{sandbox.container_port}"
+    else:
+        server_url = re.sub(r":\d+$", f":{sandbox.container_port}", settings.SERVER_NAME)
     return f"http://{server_url}"
 
 
