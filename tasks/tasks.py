@@ -107,7 +107,7 @@ def refresh_sandboxes(challenge_name: str) -> None:
     ).values_list("id", "user_id")
 
     for sandbox_id, user_id in cast(List[Tuple[int, Optional[int]]], active_sandboxes):
-        cleanup_sandbox.delay(sandbox_id)
+        cleanup_sandbox(sandbox_id)
         try:
             if user_id:
                 _ = User.objects.get(id=user_id)

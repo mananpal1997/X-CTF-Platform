@@ -105,12 +105,30 @@ def unmount_volume(challenge_id: int, user_id: Optional[int]) -> str:
 
     try:
         logger.info(
-            f"Unmounting volume: mount_point={mount_point}, challenge_id={challenge_id}, user_id={user_id}"
+            f"Attempting to unmount volume: mount_point={mount_point}, challenge_id={challenge_id}, user_id={user_id}"
         )
-        run_command(["sudo", "umount", mount_point])
-    except subprocess.CalledProcessError:
-        logger.error(
-            f"Failed to unmount volume (mount_point={mount_point}, challenge_id={challenge_id}, user_id={user_id})",
+        result = subprocess.run(
+            ["sudo", "umount", mount_point],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        if result.returncode == 0:
+            logger.info(f"Successfully unmounted: mount_point={mount_point}")
+        else:
+            error_msg = result.stderr.lower()
+            if "not mounted" in error_msg or "no such file or directory" in error_msg:
+                logger.debug(
+                    f"Mount point not mounted (already unmounted): mount_point={mount_point}, challenge_id={challenge_id}, user_id={user_id}"
+                )
+            else:
+                logger.warning(
+                    f"Failed to unmount volume (mount_point={mount_point}, challenge_id={challenge_id}, user_id={user_id}): {result.stderr.strip()}"
+                )
+    except Exception as e:
+        logger.warning(
+            f"Exception during unmount (mount_point={mount_point}, challenge_id={challenge_id}, user_id={user_id}): {e} - continuing cleanup",
             exc_info=True,
         )
     return mount_point
